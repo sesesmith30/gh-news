@@ -1,0 +1,23 @@
+{
+  "name": "news",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "imap": "^0.8.19",
+    "knex": "^0.20.13",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "puppeteer": "^2.1.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.24",
+    "util": "^0.12.3"
+  }
+}
