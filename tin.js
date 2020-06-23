@@ -4,7 +4,7 @@ exports.Tin = class {
 
     async verifyTin (tin) {
         return (async () => {
-            const browser = await puppeteer.launch({headless: false });
+            const browser = await puppeteer.launch({headless: true });
             const page = await browser.newPage();
             await page.setViewport({width: 1866, height: 768, isMobile: false});
             await page.goto('https://rapps.gegov.gov.gh/tripsutil/tinsearch.jsp');

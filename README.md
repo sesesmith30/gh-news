@@ -1,2 +1,0 @@
-# gh-news
-# gh-news
