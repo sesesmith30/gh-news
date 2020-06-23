@@ -4,7 +4,7 @@ exports.Tin = class {
 
     async verifyTin (tin) {
         return (async () => {
-            const browser = await puppeteer.launch({headless: true });
+            const browser = await puppeteer.launch({headless: true,args: ['--no-sandbox']});
             const page = await browser.newPage();
             await page.setViewport({width: 1866, height: 768, isMobile: false});
             await page.goto('https://rapps.gegov.gov.gh/tripsutil/tinsearch.jsp');
@@ -15,8 +15,6 @@ exports.Tin = class {
 
             await page.keyboard.press("Enter");
 
-            // let selector = "#searchresp";
-
             await page.waitForFunction( () => document.querySelector("#searchresp").childElementCount > 0);
 
 
@@ -25,8 +23,12 @@ exports.Tin = class {
             });
 
             if (len < 2) {
-                return  "not found";
+                return  {
+                    "error": true,
+                    "message": "TIN not found"
+                };
             }
+
 
 
             await page.waitForSelector("#resultshdr");
@@ -42,19 +44,21 @@ exports.Tin = class {
             console.log(data);
 
             let tradingAs = await page.evaluate(() => {
-                if (document.querySelector("#tradinglist") == null) {
-                    return;
+                if (document.querySelector("#tradinglist") == null || document.querySelector("#tradinglist").innerText == "") {
+                    return [];
                 }
-                return document.querySelector("#tradinglist").innerText.split("\n");
             });
 
-            data["trading"] =
-
-            await page.screenshot({path: "aa.png"});
+            await page.screenshot({path: Date.now()+".png"});
 
             browser.close();
 
-            return data;
+            return {
+                "TINNumber": data[1].replace("TIN: ",""),
+                "Organisation":data[2].replace("Name: ",""),
+                "Status": data[3].replace("Status: ",""),
+                "TradingAs": tradingAs
+            };
 
 
         })();
